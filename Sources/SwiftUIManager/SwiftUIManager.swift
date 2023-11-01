@@ -4,28 +4,53 @@ import SwiftUI
 
 public struct CustomNavigationBarView: ViewModifier {
     var title: String
+    var leftItems: [NavigationItem]
+    var rightItems: [NavigationItem]
 
-    init(title: String) {
+    init(title: String, leftItems: [NavigationItem] = [], rightItems: [NavigationItem] = []) {
         self.title = title
+        self.leftItems = leftItems
+        self.rightItems = rightItems
     }
 
     @available(iOS 13.0.0, *)
     @available(macOS 10.15.0, *)
     public func body(content: Content) -> some View {
-        ZStack(alignment: .topLeading) { // Change alignment to .topLeading
-            content
-            VStack {
-                Text(title)
-                    .font(.body)
-                    .foregroundColor(.white)
-                    .padding()
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, alignment: .topLeading)
-            .background(Color.blue.edgesIgnoringSafeArea(.top))
+        HStack {
+            leftItemsStack
+            Spacer()
+            Text(title)
+                .font(.body)
+                .foregroundColor(.white)
+                .padding()
+            Spacer()
+            rightItemsStack
         }
+        .frame(maxWidth: .infinity, alignment: .topLeading)
+        .background(Color.blue.edgesIgnoringSafeArea(.top))
+    }
+
+    @available(iOS 13.0.0, *)
+    private var leftItemsStack: some View {
+        HStack(spacing: 16) {
+            ForEach(leftItems.map { IdentifiableNavigationItem(item: $0.view) }, id: \.id) { item in
+                item.view
+            }
+        }
+        .padding(.leading, 16)
+    }
+
+    @available(iOS 13.0.0, *)
+    private var rightItemsStack: some View {
+        HStack(spacing: 16) {
+            ForEach(rightItems.map { IdentifiableNavigationItem(item: $0.view) }, id: \.id) { item in
+                item.view
+            }
+        }
+        .padding(.trailing, 16)
     }
 }
+
 
 @available(iOS 13.0, *)
 @available(macOS 10.15, *)
