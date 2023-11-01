@@ -165,8 +165,8 @@ public protocol NavigationItem {
 // MARK: - LeftNavigationItem
 
 @available(iOS 13.0, *)
-struct LeftNavigationItem: NavigationItem {
-    let view: AnyView
+public struct LeftNavigationItem: NavigationItem {
+    public let view: AnyView
 
     @available(iOS 16.0, *)
     init(_ type: NavigationItemType, spacer: Bool = false) {
@@ -182,11 +182,11 @@ struct LeftNavigationItem: NavigationItem {
 // MARK: - RightNavigationItem
 
 @available(iOS 13.0, *)
-struct RightNavigationItem: NavigationItem {
-    let view: AnyView
+public struct RightNavigationItem: NavigationItem {
+    public let view: AnyView
 
     @available(iOS 16.0, *)
-    init(_ type: NavigationItemType, spacer: Bool = false) {
+     init(_ type: NavigationItemType, spacer: Bool = false) {
         let itemView = type.view
         let spacerView = spacer ? AnyView(Spacer()) : AnyView(EmptyView())
         self.view = AnyView(HStack {
@@ -199,11 +199,11 @@ struct RightNavigationItem: NavigationItem {
 // MARK: - NavigationTitleView
 
 @available(iOS 13.0, *)
-struct NavigationTitleView: View {
+public struct NavigationTitleView: View {
     let title: String
     let color: Color
 
-    var body: some View {
+    public var body: some View {
         Text(title)
             .frame(maxWidth: title.count == 0 ? .zero : .infinity)
             .font(.headline)
